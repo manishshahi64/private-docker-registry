@@ -1,5 +1,4 @@
-# private-docker-registry
-creating a private docker registry and deploying on kubernetes with tls  
+# creating a private docker registry and deploying on kubernetes with tls  
 
 ### create tls certificates  
 $openssl genpkey -algorithm RSA -out registry.example.com.key  
