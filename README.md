@@ -16,7 +16,8 @@ $htpasswd -Bc registry.passwd [username]
 
 ### create daemon.json for insecure-registires  
 $sudo vim /etc/docker/daemon.json  
-{                                                                                                                                                                     "insecure-registries": ["registry.example.com"]  
+{  
+  "insecure-registries": ["registry.example.com"]  
 }  
 
 ### restart docker  
