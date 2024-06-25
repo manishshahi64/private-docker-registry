@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: my-registry
+  name: my-registry
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-registry
+  template:
+    metadata:
+      labels:
+        app: my-registry
+    spec:
+      containers:
+      - image: registry:2
+        name: registry
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 5000
+        env:
+        - name: REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY
+          value: "/data"
+        - name: REGISTRY_AUTH
+          value: "htpasswd"
+        - name: REGISTRY_AUTH_HTPASSWD_REALM
+          value: "Registry-Realm"
+        - name: REGISTRY_AUTH_HTPASSWD_PATH
+          value: "/auth/registry.passwd"
+        volumeMounts:
+        - name: data-pv-volume
+          mountPath: /data
+        - name: auth-pv-volume
+          mountPath: /auth
+      volumes:
+      - name: data-pv-volume
+        persistentVolumeClaim:
+          claimName: data-pvc-volume
+      - name: auth-pv-volume
+        persistentVolumeClaim:
+          claimName: auth-pvc-volume
+---
